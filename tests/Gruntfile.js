@@ -1,9 +1,13 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
-
+        jsloader: {
+            test: {
+                
+            }
+        }
     });
 
-    grunt.registerTask('default', []);
+    grunt.loadTasks('../tasks');
 
 };
