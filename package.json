@@ -1,0 +1,37 @@
+{
+    "name": "grunt-jsloader",
+    "description": "Set up your project for asynchronous script loading",
+    "version": "0.1.0",
+    "homepage": "https://github.com/mikec/grunt-jsloader",
+    "author": {
+        "name": "Mike Calvanese",
+        "email": "mfcalvanese@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/mikec/grunt-jsloader.git"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/mikec/grunt-jsloader/blob/master/LICENSE"
+        }
+    ],
+    "main": "Gruntfile.js",
+    "engines": {
+        "node": ">=0.8.0"
+    },
+    "dependencies": {
+        "grunt": "~0.4"
+    },
+    "devDependencies": { 
+
+    },
+    "keywords": [
+        "grunt",
+        "gruntplugin",
+        "scriptjs",
+        "asynchronous",
+        "$script"
+    ]
+}
