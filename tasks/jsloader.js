@@ -10,7 +10,7 @@
 
 module.exports = function(grunt) {
 
-    grunt.registerMultiTask(
+    grunt.registerTask(
         'jsloader',
         'Set up scripts for asynchronous loading',
         function() {
