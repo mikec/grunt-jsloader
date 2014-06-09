@@ -19,7 +19,7 @@ describe('jsloader', function() {
     function() {
 
         beforeEach(function() {
-            //grunt.log.muted = true;
+            grunt.log.muted = true;
             grunt.config.init();
             grunt.config('jsloader', { 
                 test: {
