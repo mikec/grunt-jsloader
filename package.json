@@ -28,7 +28,7 @@
         "grunt": "~0.4"
     },
     "devDependencies": {
-        "ncp": "0.5.1",
+        "wrench": "~1.5.8",
         "grunt-mocha-cli": "~1.8.0"
     },
     "keywords": [
