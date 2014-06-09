@@ -23,6 +23,15 @@ module.exports = function(grunt) {
             var scripts = data.scripts;
 
             var masterFile = grunt.file.read(master);
+
+            var scriptCode = '';
+            for(var bundle in scripts) {
+                var src = 
+                        scripts[bundle].src ||
+                        (_.isString(scripts[bundle]) && scripts[bundle]);
+                scriptCode += '$script("' + src + '","' + bundle + '");\n';
+            }
+
             var code = 
                     masterFile
                     .match(/\/\* jsloader \*\/([\s\S]*?)\/\* end jsloader \*\//g);
@@ -30,6 +39,7 @@ module.exports = function(grunt) {
             newCode = 
                 newCode.replace(
                     '/* jsloader */',
+                    scriptCode +
                     '$script.ready(' + 
                     JSON.stringify(Object.keys(scripts)) + ', ' +
                     'function() {'
