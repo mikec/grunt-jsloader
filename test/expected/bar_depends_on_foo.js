@@ -1,5 +1,5 @@
 $script.ready('foo', function() {
-function dependsOnFoo() {
+function bar() {
     this.test = 1;
 }
 });

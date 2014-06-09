@@ -26,8 +26,8 @@ describe('jsloader', function() {
                     main: 'tmp/main.js',
                     scripts: {
                         foo: 'tmp/foo.js',
-                        fooPlugin: {
-                            src: 'tmp/depends_on_foo.js',
+                        bar: {
+                            src: 'tmp/bar.js',
                             dep: 'foo'
                         }
                     }
@@ -50,7 +50,7 @@ describe('jsloader', function() {
         function() {
 
             var changed = grunt.file.read('tmp/foo.js');
-            var expect = grunt.file.read('test/expected/foo_after.js');
+            var expect = grunt.file.read('test/expected/foo_no_deps.js');
             
             assert.equal(changed, expect);
 
@@ -60,8 +60,8 @@ describe('jsloader', function() {
                 'dependencies are loaded',
         function() {
 
-            var changed = grunt.file.read('tmp/depends_on_foo.js');
-            var expect = grunt.file.read('test/expected/depends_on_foo_after.js');
+            var changed = grunt.file.read('tmp/bar.js');
+            var expect = grunt.file.read('test/expected/bar_depends_on_foo.js');
             
             assert.equal(changed, expect);
 
