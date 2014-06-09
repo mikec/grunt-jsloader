@@ -25,9 +25,12 @@ module.exports = function(grunt) {
             var mainFile = grunt.file.read(main);
 
             var m = mainFile.match(/\n([\t ]*?)\/\* jsloader \*\//g);
-            var indent = m + '';
-            indent = indent.replace('/* jsloader */', '');
-            indent = indent.replace(/\n/g, '');
+            var indent = '';
+            if(m) {
+                indent = m + '';
+                indent = indent.replace('/* jsloader */', '');
+                indent = indent.replace(/\n/g, '');
+            }
 
             var masterCode = '';
             for(var bundle in scripts) {

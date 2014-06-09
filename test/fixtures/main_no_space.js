@@ -1,0 +1,3 @@
+/* jsloader */
+    runMyApp();
+/* end jsloader */

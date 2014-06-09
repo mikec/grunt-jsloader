@@ -107,5 +107,35 @@ describe('jsloader', function() {
 
     });
 
+    describe('given a main file where the placeholder has no whitespace, ' +
+                'linebreak, or tab before it',
+    function() {
+
+        beforeEach(function() {
+            grunt.log.muted = true;
+            grunt.config.init();
+            grunt.config('jsloader', { 
+                test: {
+                    main: 'tmp/main_no_space.js',
+                    scripts: {
+                        foo: 'tmp/foo.js'
+                    }
+                }
+            });
+            grunt.task.run('jsloader');
+            grunt.task.start();
+        });
+
+        it('should add $script loading code to main file', function() {
+
+            var changed = grunt.file.read('tmp/main_no_space.js');
+            var expect = grunt.file.read('test/expected/main_no_space.js');
+            
+            assert.equal(expect, changed);
+
+        });
+
+    });
+
 });
 
