@@ -42,7 +42,7 @@ describe('jsloader', function() {
             var changed = grunt.file.read('tmp/main.js');
             var expect = grunt.file.read('test/expected/main_with_script.js');
             
-            assert.equal(changed, expect);
+            assert.equal(expect, changed);
 
         });
 
@@ -52,7 +52,7 @@ describe('jsloader', function() {
             var changed = grunt.file.read('tmp/foo.js');
             var expect = grunt.file.read('test/expected/foo_no_deps.js');
             
-            assert.equal(changed, expect);
+            assert.equal(expect, changed);
 
         });
 
@@ -63,7 +63,7 @@ describe('jsloader', function() {
             var changed = grunt.file.read('tmp/bar.js');
             var expect = grunt.file.read('test/expected/bar_depends_on_foo.js');
             
-            assert.equal(changed, expect);
+            assert.equal(expect, changed);
 
         });
 
