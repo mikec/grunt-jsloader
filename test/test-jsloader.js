@@ -5,7 +5,7 @@ var assert = require('assert');
 grunt.task.init([]);
 grunt.config.init({});
 
-describe('test', function() {
+describe('jsloader', function() {
 
     beforeEach(function() {
         wrench.copyDirSyncRecursive('test/fixtures', 'tmp');
@@ -15,18 +15,36 @@ describe('test', function() {
         wrench.rmdirSyncRecursive('tmp');
     });
 
-    it('master file given as string', function() {
-        
-        grunt.log.muted = true;
-        grunt.config.init();
-        grunt.config('jsloader', 'tmp/master.js');
-        grunt.task.run('jsloader');
-        grunt.task.start();
+    describe('given a master file with two scripts and one dependency',
+    function() {
 
-        var changed = grunt.file.read('tmp/master.js');
-        var expect = grunt.file.read('test/expected/master_with_script.js');
-        
-        assert.equal(changed, expect);
+        beforeEach(function() {
+            //grunt.log.muted = true;
+            grunt.config.init();
+            grunt.config('jsloader', { 
+                test: {
+                    master: 'tmp/master.js',
+                    scripts: {
+                        foo: 'foo.js',
+                        fooPlugin: {
+                            src: 'depends_on_foo.js',
+                            dep: 'foo'
+                        }
+                    }
+                }
+            });
+            grunt.task.run('jsloader');
+            grunt.task.start();
+        });
+
+        it('should add $script loading code to master file', function() {
+
+            var changed = grunt.file.read('tmp/master.js');
+            var expect = grunt.file.read('test/expected/master_with_script.js');
+            
+            assert.equal(changed, expect);
+
+        });
 
     });
 

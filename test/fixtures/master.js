@@ -1,5 +1,5 @@
 function() {
     /* jsloader */
-    runMyApp();
+        runMyApp();
     /* end jsloader */
 }

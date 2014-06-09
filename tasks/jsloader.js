@@ -19,10 +19,26 @@ module.exports = function(grunt) {
         'Set up scripts for asynchronous loading',
         function() {
             var data = this.data;
-            var master = data.master || (_.isString(data) && data);
-            var contents = grunt.file.read(master);
-            contents.replace('jsloader', 'jnk');
-            grunt.file.write(master, contents);
+            var master = data.master;
+            var scripts = data.scripts;
+
+            var masterFile = grunt.file.read(master);
+            var code = 
+                    masterFile
+                    .match(/\/\* jsloader \*\/([\s\S]*?)\/\* end jsloader \*\//g);
+            var newCode = code + '';
+            newCode = 
+                newCode.replace(
+                    '/* jsloader */',
+                    '$script.ready(' + 
+                    JSON.stringify(Object.keys(scripts)) + ', ' +
+                    'function() {'
+                );
+            newCode = newCode.replace('/* end jsloader */', '});');
+
+            masterFile = masterFile.replace(code, newCode);
+
+            grunt.file.write(master, masterFile);
         }
     );
 

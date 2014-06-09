@@ -1,5 +1,5 @@
 function() {
-    /* jsloader */
-    runMyApp();
-    /* end jsloader */
+    $script.ready(["foo","fooPlugin"], function() {
+        runMyApp();
+    });
 }
