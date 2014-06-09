@@ -10,11 +10,19 @@
 
 module.exports = function(grunt) {
 
-    grunt.registerTask(
+    var _ = grunt.util._;
+
+    grunt.registerMultiTask(
         'jsloader',
         'Set up scripts for asynchronous loading',
         function() {
+            var data = this.data;
+            var master = data.master || (_.isString(data) && data);
+            var contents = grunt.file.read(master);
+            grunt.file.write(master, 'TEST' + contents);
 
+            var tst = grunt.file.read(master);
+            grunt.log.writeln(tst)
         }
     );
 
