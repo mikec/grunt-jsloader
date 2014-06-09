@@ -29,13 +29,18 @@ module.exports = function(grunt) {
             indent = indent.replace('/* jsloader */', '');
             indent = indent.replace(/\n/g, '');
 
-            var scriptCode = '';
+            var masterCode = '';
             for(var bundle in scripts) {
+                var s = scripts[bundle];
                 var src = 
-                        scripts[bundle].src ||
-                        (_.isString(scripts[bundle]) && scripts[bundle]);
-                scriptCode +=
+                        s.src ||
+                        (_.isString(s) && s);
+                masterCode +=
                     '$script("' + src + '","' + bundle + '");\n' + indent;
+
+                if(s.src && s.dep) {
+                    addReadyScriptToFile(s.src, s.dep);
+                }
             }
 
             var code = 
@@ -45,17 +50,31 @@ module.exports = function(grunt) {
             newCode = 
                 newCode.replace(
                     '/* jsloader */',
-                    scriptCode +
+                    masterCode +
                     '$script.ready(' + 
                     JSON.stringify(Object.keys(scripts)) + ', ' +
                     'function() {'
                 );
             newCode = newCode.replace('/* end jsloader */', '});');
-
             mainFile = mainFile.replace(code, newCode);
-
             grunt.file.write(main, mainFile);
         }
     );
+
+    function addReadyScriptToFile(fileName, dependencies) {
+        var f = grunt.file.read(fileName);
+
+        var depString = 
+                _.isString(dependencies) ? 
+                    "'" + dependencies + "'" : 
+                    dependencies.length == 1 ? 
+                        "'" + dependencies[0] + "'" : 
+                        JSON.stringify(dependencies);
+        var code = 
+            '$script.ready(' + depString + ', function() {\n' +
+                f + 
+            '\n});';
+        grunt.file.write(fileName, code);
+    }
 
 };
