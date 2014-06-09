@@ -39,7 +39,9 @@ module.exports = function(grunt) {
                         s.src ||
                         (_.isString(s) && s);
                 masterCode +=
-                    '$script("' + src + '","' + bundle + '");\n' + indent;
+                    '$script(' + 
+                    getDependencyString(src) + 
+                    ',"' + bundle + '");\n' + indent;
 
                 if(s.src && s.dep) {
                     addReadyScriptToFile(s.src, s.dep);
@@ -66,18 +68,22 @@ module.exports = function(grunt) {
 
     function addReadyScriptToFile(fileName, dependencies) {
         var f = grunt.file.read(fileName);
-
-        var depString = 
-                _.isString(dependencies) ? 
-                    "'" + dependencies + "'" : 
-                    dependencies.length == 1 ? 
-                        "'" + dependencies[0] + "'" : 
-                        JSON.stringify(dependencies);
+                
         var code = 
-            '$script.ready(' + depString + ', function() {\n' +
+            '$script.ready(' + 
+                getDependencyString(dependencies) + 
+            ', function() {\n' +
                 f + 
             '\n});';
         grunt.file.write(fileName, code);
+    }
+
+    function getDependencyString(dependencies) {
+        return _.isString(dependencies) ? 
+                    '"' + dependencies + '"' : 
+                    dependencies.length == 1 ? 
+                        '"' + dependencies[0] + '"' : 
+                        JSON.stringify(dependencies);
     }
 
 };
