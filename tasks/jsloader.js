@@ -24,12 +24,18 @@ module.exports = function(grunt) {
 
             var masterFile = grunt.file.read(master);
 
+            var m = masterFile.match(/\n([\t ]*?)\/\* jsloader \*\//g);
+            var indent = m + '';
+            indent = indent.replace('/* jsloader */', '');
+            indent = indent.replace(/\n/g, '');
+
             var scriptCode = '';
             for(var bundle in scripts) {
                 var src = 
                         scripts[bundle].src ||
                         (_.isString(scripts[bundle]) && scripts[bundle]);
-                scriptCode += '$script("' + src + '","' + bundle + '");\n';
+                scriptCode +=
+                    '$script("' + src + '","' + bundle + '");\n' + indent;
             }
 
             var code = 
