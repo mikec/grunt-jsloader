@@ -15,7 +15,7 @@ describe('jsloader', function() {
         wrench.rmdirSyncRecursive('tmp');
     });
 
-    describe('given a master file with two scripts and one dependency',
+    describe('given a main file with two scripts and one dependency',
     function() {
 
         beforeEach(function() {
@@ -23,7 +23,7 @@ describe('jsloader', function() {
             grunt.config.init();
             grunt.config('jsloader', { 
                 test: {
-                    master: 'tmp/master.js',
+                    main: 'tmp/main.js',
                     scripts: {
                         foo: 'foo.js',
                         fooPlugin: {
@@ -37,10 +37,10 @@ describe('jsloader', function() {
             grunt.task.start();
         });
 
-        it('should add $script loading code to master file', function() {
+        it('should add $script loading code to main file', function() {
 
-            var changed = grunt.file.read('tmp/master.js');
-            var expect = grunt.file.read('test/expected/master_with_script.js');
+            var changed = grunt.file.read('tmp/main.js');
+            var expect = grunt.file.read('test/expected/main_with_script.js');
             
             assert.equal(changed, expect);
 
