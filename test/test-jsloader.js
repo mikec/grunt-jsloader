@@ -15,7 +15,7 @@ describe('jsloader', function() {
         wrench.rmdirSyncRecursive('tmp');
     });
 
-    describe('given a main file with two scripts and one dependency',
+    describe('given a main file, and two scripts with one dependency',
     function() {
 
         beforeEach(function() {
@@ -64,6 +64,44 @@ describe('jsloader', function() {
             var expect = grunt.file.read('test/expected/bar_depends_on_foo.js');
             
             assert.equal(changed, expect);
+
+        });
+
+    });
+
+    describe('given a file with multiple dependencies', function() {
+
+        beforeEach(function() {
+            grunt.log.muted = true;
+            grunt.config.init();
+            grunt.config('jsloader', { 
+                test: {
+                    main: 'tmp/main.js',
+                    scripts: {
+                        foo: 'tmp/foo.js',
+                        bar: 'tmp/bar.js',
+                        baz: {
+                            src: 'tmp/baz.js',
+                            dep: ['foo', 'bar']
+                        }
+                    }
+                }
+            });
+            grunt.task.run('jsloader');
+            grunt.task.start();
+        });
+
+        it('should add $script.ready to the file and include ' +
+            'an array of dependencies',
+        function() {
+
+            var changed = grunt.file.read('tmp/baz.js');
+            var expect = 
+                    grunt.file.read(
+                        'test/expected/baz_depends_on_foo_and_bar.js'
+                    );
+            
+            assert.equal(expect, changed);
 
         });
 
