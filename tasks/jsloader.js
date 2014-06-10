@@ -19,8 +19,10 @@ module.exports = function(grunt) {
         'Set up scripts for asynchronous loading',
         function() {
             var data = this.data;
-            var main = data.main;
             var scripts = data.scripts;
+            var opts = data.options;
+            var basePath = opts ? opts.basePath : null;
+            var main = basePath ? basePath + '\/' + data.main : data.main;
 
             var mainFile = grunt.file.read(main);
 

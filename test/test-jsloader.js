@@ -184,5 +184,33 @@ describe('jsloader', function() {
 
     });
 
+    describe('when basePath option is defined without a trailing slash',
+    function() {
+
+        beforeEach(function() {
+            grunt.config.init();
+            grunt.config('jsloader', { 
+                test: {
+                    main: 'main.js',
+                    scripts: {
+                        foo: 'foo.js',
+                    },
+                    options: {
+                        basePath: 'tmp'
+                    }
+                }
+            });
+            grunt.task.run('jsloader');
+            grunt.task.start();
+        });
+
+        it('should include the correct file refs', function() {
+            var changed = grunt.file.read('tmp/main.js');
+            var expect = grunt.file.read('test/expected/main_rel_paths.js');
+            assert.equal(changed, expect);
+        });
+
+    });
+
 });
 
