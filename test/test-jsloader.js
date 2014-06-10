@@ -194,6 +194,10 @@ describe('jsloader', function() {
                     main: 'main.js',
                     scripts: {
                         foo: 'foo.js',
+                        bar: {
+                            src: 'bar.js',
+                            dep: 'foo'
+                        }
                     },
                     options: {
                         basePath: 'tmp'

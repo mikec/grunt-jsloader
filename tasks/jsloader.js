@@ -52,7 +52,10 @@ module.exports = function(grunt) {
                                 getAllDepBundles(bundle, scripts) : 
                                 s.dep;
                     for(var i in src) {
-                        addReadyScriptToFile(src[i], dep);
+                        var fileName = 
+                                basePath ? 
+                                    basePath + '\/' + src[i] : src[i];
+                        addReadyScriptToFile(fileName, dep);
                     }
                 }
             }

@@ -1,6 +1,7 @@
 function() {
     $script("foo.js","foo");
-    $script.ready(["foo"], function() {
+    $script("bar.js","bar");
+    $script.ready(["foo","bar"], function() {
         runMyApp();
     });
 }
