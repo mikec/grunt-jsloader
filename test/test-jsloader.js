@@ -9,6 +9,7 @@ describe('jsloader', function() {
 
     beforeEach(function() {
         wrench.copyDirSyncRecursive('test/fixtures', 'tmp');
+        grunt.log.muted = true;
     });
 
     afterEach(function() {
@@ -19,7 +20,6 @@ describe('jsloader', function() {
     function() {
 
         beforeEach(function() {
-            grunt.log.muted = true;
             grunt.config.init();
             grunt.config('jsloader', { 
                 test: {
@@ -72,7 +72,6 @@ describe('jsloader', function() {
     describe('given a file with multiple dependencies', function() {
 
         beforeEach(function() {
-            grunt.log.muted = true;
             grunt.config.init();
             grunt.config('jsloader', { 
                 test: {
@@ -112,7 +111,6 @@ describe('jsloader', function() {
     function() {
 
         beforeEach(function() {
-            grunt.log.muted = true;
             grunt.config.init();
             grunt.config('jsloader', { 
                 test: {
