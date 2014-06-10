@@ -48,8 +48,11 @@ module.exports = function(grunt) {
                     ',"' + bundle + '");\n' + indent;
 
                 if(s.dep) {
+                    var dep = s.dep == '*' ? 
+                                getAllDepBundles(bundle, scripts) : 
+                                s.dep;
                     for(var i in src) {
-                        addReadyScriptToFile(src[i], s.dep);
+                        addReadyScriptToFile(src[i], dep);
                     }
                 }
             }
@@ -89,6 +92,16 @@ module.exports = function(grunt) {
                     dependencies.length == 1 ? 
                         '"' + dependencies[0] + '"' : 
                         JSON.stringify(dependencies);
+    }
+
+    function getAllDepBundles(currentBundle, allBundles) {
+        var depList = [];
+        for(var bundle in allBundles) {
+            if(bundle != currentBundle) {
+                depList.push(bundle);
+            }
+        }
+        return depList;
     }
 
 };

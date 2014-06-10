@@ -212,5 +212,39 @@ describe('jsloader', function() {
 
     });
 
+    describe('when a dependency list is set to \'*\'', function() {
+
+        beforeEach(function() {
+            grunt.config.init();
+            grunt.config('jsloader', { 
+                test: {
+                    main: 'tmp/main.js',
+                    scripts: {
+                        foo: 'tmp/foo.js',
+                        bar: 'tmp/bar.js',
+                        baz: {
+                            src: 'tmp/baz.js',
+                            dep: '*'
+                        }
+                    }
+                }
+            });
+            grunt.task.run('jsloader');
+            grunt.task.start();
+        });
+
+        it('should add all script bundles except the current one ' +
+            'as dependencies',
+        function() {
+            var changed = grunt.file.read('tmp/baz.js');
+            var expect = 
+                    grunt.file.read(
+                        'test/expected/baz_depends_on_foo_and_bar.js'
+                    );
+            assert.equal(changed, expect);
+        });
+
+    });
+
 });
 
