@@ -21,7 +21,7 @@ describe('jsloader', function() {
 
         beforeEach(function() {
             grunt.config.init();
-            grunt.config('jsloader', { 
+            grunt.config('jsloader', {
                 test: {
                     main: 'tmp/main.js',
                     scripts: {
@@ -130,6 +130,55 @@ describe('jsloader', function() {
             var expect = grunt.file.read('test/expected/main_no_space.js');
             
             assert.equal(expect, changed);
+
+        });
+
+    });
+
+    describe('given a script bundle with multiple files', function() {
+
+        beforeEach(function() {
+            grunt.config.init();
+            grunt.config('jsloader', { 
+                test: {
+                    main: 'tmp/main.js',
+                    scripts: {
+                        foo: 'tmp/foo.js',
+                        stuff: {
+                            src: ['tmp/bar.js', 'tmp/baz.js'],
+                            dep: 'foo'
+                        }
+                    }
+                }
+            });
+            grunt.task.run('jsloader');
+            grunt.task.start();
+        });
+
+        it('the first file should have the dependency defined', function() {
+
+            var changed = grunt.file.read('tmp/bar.js');
+            var expect = grunt.file.read('test/expected/bar_depends_on_foo.js');
+            
+            assert.equal(changed, expect);
+
+        });
+
+        it('the second file should have the dependency defined', function() {
+
+            var changed = grunt.file.read('tmp/baz.js');
+            var expect = grunt.file.read('test/expected/baz_depends_on_foo.js');
+            
+            assert.equal(changed, expect);
+
+        });
+
+        it('the main file should load the scripts as a bundle', function() {
+
+            var changed = grunt.file.read('tmp/main.js');
+            var expect = grunt.file.read('test/expected/main_with_bundle.js');
+            
+            assert.equal(changed, expect);
 
         });
 

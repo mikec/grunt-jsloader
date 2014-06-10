@@ -36,15 +36,19 @@ module.exports = function(grunt) {
             for(var bundle in scripts) {
                 var s = scripts[bundle];
                 var src = 
-                        s.src ||
-                        (_.isString(s) && s);
+                        (_.isArray(s.src) && s.src) ||
+                        (_.isString(s.src) && [s.src]) ||
+                        (_.isString(s) && [s]);
+
                 masterCode +=
                     '$script(' + 
                     getDependencyString(src) + 
                     ',"' + bundle + '");\n' + indent;
 
-                if(s.src && s.dep) {
-                    addReadyScriptToFile(s.src, s.dep);
+                if(s.dep) {
+                    for(var i in src) {
+                        addReadyScriptToFile(src[i], s.dep);
+                    }
                 }
             }
 
@@ -68,7 +72,6 @@ module.exports = function(grunt) {
 
     function addReadyScriptToFile(fileName, dependencies) {
         var f = grunt.file.read(fileName);
-                
         var code = 
             '$script.ready(' + 
                 getDependencyString(dependencies) + 
