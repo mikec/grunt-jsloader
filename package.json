@@ -1,7 +1,7 @@
 {
     "name": "grunt-jsloader",
     "description": "Set up your project for asynchronous script loading",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "homepage": "https://github.com/mikec/grunt-jsloader",
     "author": {
         "name": "Mike Calvanese",
