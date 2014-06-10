@@ -60,6 +60,64 @@ In your main file, include the following placeholder:
 
 You will need to add a reference to [script.js](https://github.com/ded/script.js/) to your project. Make sure that it's loaded before the spot where the `/* jsloader */` placeholder code will be included.
 
+More Configuration
+------------------
+
+Scripts can be configured using a string for a single script, or an array for multiple scripts.
+
+```
+scripts: {
+    foo: 'foo.js'
+}
+
+// or
+
+scripts: {
+    stuff: ['foo.js', 'bar.js']
+}
+```
+
+`*` can be used in the `dep` property to include all other script groups as dependencies of this script group
+
+```
+scripts: {
+    foo: 'foo.js',
+    bar: 'bar.js',
+
+    // baz depends on foo and bar
+    baz: {
+        src: 'baz.js',
+        dep: '*'
+    }
+}
+```
+
+Options
+-------
+
+`basePath`
+
+Sets the base path of you project. If used, all script src paths should be relative to the basePath.
+
+```
+// the grunt task will look for files in app, such as "app/foo.js"
+
+// main.js, foo.js, and bar.js should be in the base path
+// so relative script references will be used ("foo.js" and "bar.js")
+
+jsloader: {
+    example: {
+        options: {
+            basePath: 'app'
+        }
+        main: 'main.js',
+        scripts: {
+            foo: 'foo.js',
+            bar: 'bar.js'
+        }
+    }
+}
+```
 
 Testing
 -------
